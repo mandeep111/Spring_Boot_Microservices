@@ -5,6 +5,7 @@ import com.microservice.notes_microservice.entity.User;
 import com.microservice.notes_microservice.exception.UserNotInDatabaseException;
 import com.microservice.notes_microservice.exception.UserNotLoggedIn;
 import com.microservice.notes_microservice.utilties.EncryptionUtils;
+import com.microservice.notes_microservice.utilties.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class LoginServiceImpl implements LoginService{
     @Autowired
     private EncryptionUtils encryptionUtils;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
     @Override
     public Optional<User> getUser(String email, String password) throws UserNotInDatabaseException {
         Optional<User> dbUser = userDao.findByEmail(email);
@@ -38,12 +42,17 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
-    public String createJwt(String email, String name, Date date) {
-        return null;
+    public String createJwt(String email, String name, Date date) throws UnsupportedEncodingException {
+        date.setTime(date.getTime() + (60*100*1000));
+        return jwtUtils.generateJwt(email, name, date);
     }
 
     @Override
-    public Map<String, Object> getDataAfterJwtVerified(HttpServletRequest request) throws UserNotLoggedIn {
-        return null;
+    public Map<String, Object> getDataAfterJwtVerified(HttpServletRequest request) throws UserNotLoggedIn, UnsupportedEncodingException {
+        String jwt = jwtUtils.getJwtFromHttpRequest(request);
+        if (jwt == null) {
+            throw new UserNotLoggedIn("User not logged in!");
+        }
+        return jwtUtils.jwtToMap(jwt);
     }
 }

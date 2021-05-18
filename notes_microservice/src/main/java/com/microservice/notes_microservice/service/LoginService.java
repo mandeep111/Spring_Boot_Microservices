@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface LoginService {
     Optional<User> getUser(String email, String password) throws UserNotInDatabaseException;
 
-    String createJwt(String email, String name, Date date);
+    String createJwt(String email, String name, Date date) throws UnsupportedEncodingException;
 
-    Map<String, Object> getDataAfterJwtVerified(HttpServletRequest request) throws UserNotLoggedIn;
+    Map<String, Object> getDataAfterJwtVerified(HttpServletRequest request) throws UserNotLoggedIn, UnsupportedEncodingException;
 }
