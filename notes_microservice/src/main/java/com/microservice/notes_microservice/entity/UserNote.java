@@ -1,11 +1,11 @@
 package com.microservice.notes_microservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -15,19 +15,25 @@ public class UserNote {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
+    @Getter @Setter
     private int id;
 
     @Column(name = "Description")
+    @Getter @Setter
     private String description;
 
     @Column(name = "Date")
+    @Getter @Setter
     private Date date;
 
     @Column(name = "Priority")
+    @Getter @Setter
+    @NotNull
     private String priority;
 
     @Column(name = "FK_User")
     @Getter @Setter
+    @NotNull
     private String fkUser;
 
     public UserNote() {
@@ -39,38 +45,5 @@ public class UserNote {
         this.date = date;
         this.priority = priority;
         this.fkUser = fkUser;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getPriority() {
-        return priority;
-    }
-
-    public void setPriority(String priority) {
-        this.priority = priority;
-    }
-
-    public String getFkUser() {
-        return fkUser;
-    }
-
-    public void setFkUser(String fkUser) {
-        this.fkUser = fkUser;
-    }
-
-    @PrePersist
-    void getDate() {
-        this.date = new Date();
     }
 }

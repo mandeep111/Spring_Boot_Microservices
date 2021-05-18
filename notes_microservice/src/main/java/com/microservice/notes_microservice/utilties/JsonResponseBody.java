@@ -28,4 +28,12 @@ public class JsonResponseBody {
     public void setResponse(Object response) {
         this.response = response;
     }
+
+    @Override
+    public String toString() {
+        return "JsonResponseBody{" +
+                "server=" + server +
+                ", response=" + response +
+                '}';
+    }
 }
