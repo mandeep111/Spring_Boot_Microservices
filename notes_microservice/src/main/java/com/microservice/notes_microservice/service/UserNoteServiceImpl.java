@@ -15,8 +15,7 @@ public class UserNoteServiceImpl implements UserNoteService{
 
     @Override
     public List<UserNote> getNotes(String email) {
-        System.out.println(userNoteDao.findByfkUser(email));
-        return userNoteDao.findByfkUser(email);
+        return userNoteDao.findNoteByFkUser(email);
     }
 
     @Override
