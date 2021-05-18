@@ -5,7 +5,6 @@ import com.microservice.notes_microservice.dao.UserNoteDao;
 import com.microservice.notes_microservice.entity.User;
 import com.microservice.notes_microservice.entity.UserNote;
 import com.microservice.notes_microservice.utilties.EncryptionUtils;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Date;
 
-@Log
 @SpringBootApplication
 public class NotesMicroserviceApplication implements CommandLineRunner {
     @Autowired

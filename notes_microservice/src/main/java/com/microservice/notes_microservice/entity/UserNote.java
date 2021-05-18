@@ -10,31 +10,64 @@ import java.util.Date;
 
 @Entity
 @Table(name="user_note")
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserNote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    @Getter @Setter
     private int id;
 
     @Column(name = "Description")
-    @Getter @Setter
     private String description;
 
     @Column(name = "Date")
-    @Getter @Setter
     private Date date;
 
     @Column(name = "Priority")
-    @Getter @Setter
     private String priority;
 
     @Column(name = "FK_User")
     @Getter @Setter
     private String fkUser;
+
+    public UserNote() {
+    }
+
+    public UserNote(int id, String description, Date date, String priority, String fkUser) {
+        this.id = id;
+        this.description = description;
+        this.date = date;
+        this.priority = priority;
+        this.fkUser = fkUser;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public String getFkUser() {
+        return fkUser;
+    }
+
+    public void setFkUser(String fkUser) {
+        this.fkUser = fkUser;
+    }
 
     @PrePersist
     void getDate() {
