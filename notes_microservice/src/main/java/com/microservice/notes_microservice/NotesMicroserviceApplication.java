@@ -31,7 +31,7 @@ public class NotesMicroserviceApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 		String encryptedPassword;
 		encryptedPassword = encryptionUtils.encrypt("Hello");
-		userDao.save(new User("mandeep@gmail.com", "Mandeep Dhakal", encryptedPassword));
+		userDao.save(new User("mandeepdhakal@gmail.com", "Mandeep Dhakal", encryptedPassword));
 
 		encryptedPassword = encryptionUtils.encrypt("admin");
 		userDao.save(new User("ram@gmail.com", "Ram Sharma", encryptedPassword));

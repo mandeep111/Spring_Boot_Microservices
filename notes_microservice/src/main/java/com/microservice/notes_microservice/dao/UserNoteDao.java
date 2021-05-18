@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface UserNoteDao extends JpaRepository<UserNote, Integer> {
-    List<UserNote> findByFkUser(String email);
+    List<UserNote> findByfkUser(String email);
 }
