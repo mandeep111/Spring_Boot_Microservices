@@ -18,7 +18,7 @@ public class NoteStatistics {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter @Setter
     @Column(name="ID")
-    private int id;
+    private Integer id;
 
     @Getter @Setter
     @Column(name="Description")

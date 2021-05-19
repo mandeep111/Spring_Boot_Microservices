@@ -11,6 +11,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -21,8 +22,33 @@ public class NoteStatisticsServiceImpl implements NoteStatisticsService{
 
     @Override
     public List<NoteStatistics> getStatistics(String jwt, String email) {
+        List<LinkedHashMap> notes = getDataFromNoteMicroservice(jwt);
 
-        return null;
+        // calculate statistics
+        String description = "No stats";
+        if (notes != null && notes.size() > 0) {
+            int lowPriority = 0;
+            int highPriority = 0;
+            for (int i=0; i<notes.size(); i++) {
+                LinkedHashMap note = notes.get(i);
+                String priority = (String) note.get("priority");
+                if (priority.equalsIgnoreCase("low")) lowPriority++;
+                if (priority.equalsIgnoreCase("high")) highPriority++;
+
+            }
+            description =  lowPriority +" low priority and "+ highPriority+ " high priority notes.";
+        }
+        List<NoteStatistics> noteStatistics = noteStatisticsDao.getNoteStatistics(email);
+        if (noteStatistics.size() > 0) {
+            Date now = new Date();
+            long diff = now.getTime() - noteStatistics.get(0).getDate().getTime();
+
+            long days = diff/(24 * 60 * 60 * 1000);
+            if(days>1){
+                noteStatistics.add(noteStatisticsDao.save(new NoteStatistics(null, description, email, new Date())));
+            }
+        }
+        return noteStatistics;
     }
 
     public List<LinkedHashMap> getDataFromNoteMicroservice(String jwt) {
