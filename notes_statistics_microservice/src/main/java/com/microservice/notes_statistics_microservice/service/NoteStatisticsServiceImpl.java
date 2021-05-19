@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+@Service
 public class NoteStatisticsServiceImpl implements NoteStatisticsService{
 
     @Autowired
@@ -58,11 +60,15 @@ public class NoteStatisticsServiceImpl implements NoteStatisticsService{
         HttpEntity<?> request = new HttpEntity<>(String.class, header);
 
         // calling another microservice
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<JsonResponseBody> responseEntity = restTemplate.exchange("http://localhost:8081/showNotes",
-                HttpMethod.POST, request,JsonResponseBody.class);
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<JsonResponseBody> responseEntity = restTemplate.exchange("http://localhost:8081/showNotes",
+                    HttpMethod.POST, request,JsonResponseBody.class);
 
-        List<LinkedHashMap> notes = (List) responseEntity.getBody().getResponse();
-        return notes;
+            List<LinkedHashMap> notes = (List) responseEntity.getBody().getResponse();
+            return notes;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
