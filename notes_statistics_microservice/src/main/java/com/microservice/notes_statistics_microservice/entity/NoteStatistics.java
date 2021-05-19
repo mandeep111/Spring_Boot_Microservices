@@ -21,14 +21,14 @@ public class NoteStatistics {
     private int id;
 
     @Getter @Setter
-    @Column(name="ID")
+    @Column(name="Description")
     private String description;
 
     @Getter @Setter
-    @Column(name="ID")
+    @Column(name="Email")
     private String email;
 
     @Getter @Setter
-    @Column(name="ID")
+    @Column(name="Date")
     private Date date;
 }
