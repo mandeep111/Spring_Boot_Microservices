@@ -45,8 +45,9 @@ public class NoteStatisticsServiceImpl implements NoteStatisticsService{
             Date now = new Date();
             long diff = now.getTime() - noteStatistics.get(0).getDate().getTime();
 
-            long days = diff/(24 * 60 * 60 * 1000);
-            if(days>1){
+            // insert new statistics every hour
+            long hour = diff/(60 * 60 * 1000);
+            if(hour>1){
                 noteStatistics.add(noteStatisticsDao.save(new NoteStatistics(null, description, email, new Date())));
             }
         }
@@ -57,14 +58,13 @@ public class NoteStatisticsServiceImpl implements NoteStatisticsService{
         // preparing header with jwt
         MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
         header.add("jwt", jwt);
-        HttpEntity<?> request = new HttpEntity<>(String.class, header);
+        HttpEntity<?> request = new HttpEntity(String.class, header);
 
         // calling another microservice
         try {
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<JsonResponseBody> responseEntity = restTemplate.exchange("http://localhost:8081/showNotes",
-                    HttpMethod.POST, request,JsonResponseBody.class);
-
+                    HttpMethod.GET, request, JsonResponseBody.class);
             List<LinkedHashMap> notes = (List) responseEntity.getBody().getResponse();
             return notes;
         } catch (Exception e) {

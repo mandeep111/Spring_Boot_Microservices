@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface NoteStatisticsDao extends JpaRepository<NoteStatistics, Integer> {
-    @Query(value="SELECT * FROM testdb WHERE EMAIL=:email ORDER BY DATE DESC;", nativeQuery = true)
+    @Query(value="SELECT * FROM note_statics WHERE EMAIL=:email ORDER BY DATE DESC;", nativeQuery = true)
     public List<NoteStatistics> getNoteStatistics(@Param("email") String email);
 }
